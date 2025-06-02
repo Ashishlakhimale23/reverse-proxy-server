@@ -1,10 +1,10 @@
-server : 
+service : 
   host : "localhost"
   port : "8000"
 resources : 
   - name : server1 
     endpoint : /server1
-    url : "http://localhost:9001"
+    url : "https://review-to.onrender.com/user/cornjob"
   - name : server2 
     endpoint : /server2
     url : "http://localhost:9002"

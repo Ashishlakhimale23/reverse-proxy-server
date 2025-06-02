@@ -2,7 +2,8 @@ package server
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
+	
 	"log"
 	"net/http"
 )
@@ -14,35 +15,43 @@ type Resources struct {
 
 func Home(resources []Resources) http.HandlerFunc{
 	return func(w http.ResponseWriter, r *http.Request) {
-		urlString:= r.URL.Path
-		var url string
+		
+		var urlString string
+        // fixs here needed 
+		// err handling through out can be done more neatly
 		for _,i := range resources{
-			if i.Endpoint == urlString{
-				url = i.Url
+			if r.URL.Path == i.Endpoint {
+				urlString = i.Url
 				break
-			} 
+			}
 		}
 
-		fmt.Println(url)
-		resp,err := http.Get(url)
+		if urlString == "" {
+			log.Fatal("url not found")
+		}
+	
+		req,err := http.NewRequest(r.Method,urlString,r.Body)
 		if err != nil{
 			log.Fatal(err)
 		}
-		defer resp.Body.Close()
+		req.Header = r.Header
 
-		body,err := ioutil.ReadAll(resp.Body)
+		resp, err := http.DefaultClient.Do(req)
+        if err != nil {
+			log.Fatal(err)
+        }
+        defer resp.Body.Close()
+		body,err := io.ReadAll(resp.Body)
 		if err != nil {
 			log.Fatal(err)
 		}
-
 		fmt.Fprintln(w,string(body))
-
 	}
 }
 
 
 func Server(resources []Resources){
-	log.Println("starting server at port 80")
+	log.Println("starting server at port 8000")
 	const port string = ":8000"
 	// handel all requests 
 	// hit the url and send back the response

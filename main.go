@@ -3,18 +3,11 @@ package main
 import (
 	"log"
 	"os"
-
 	"example.com/reverse-proxy/server"
 	"gopkg.in/yaml.v3"
 )
 
-type Service struct{
-	Host string
-	Port string
-}
-
 type Configuration struct{
-	Service Service
 	Resources []server.Resources
 }
 

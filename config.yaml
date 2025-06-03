@@ -1,15 +1,12 @@
-service : 
-  host : "localhost"
-  port : "8000"
 resources : 
   - name : server1 
-    endpoint : /server1
-    url : "https://review-to.onrender.com/user/cornjob"
+    endpoint : server1.test
+    url : "http://localhost:8000"
   - name : server2 
-    endpoint : /server2
-    url : "http://localhost:9002"
+    endpoint : server2.test 
+    url : "https://jsonplaceholder.typicode.com/todos/2"
   - name : server3 
-    endpoint : /server3
+    endpoint : server3.test
     url : "http://localhost:9003"
 
 
